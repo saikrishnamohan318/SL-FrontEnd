@@ -1,0 +1,14 @@
+ul {
+    width: 7%;
+    margin: auto;
+    text-align: center;
+    display: flex;
+    padding-left: 0px;
+}
+li {
+    list-style: none;
+    border: 1px solid grey;
+    padding: 3px 6px;
+    margin: 10px;
+    cursor: pointer;
+}
