@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import contextApi from '../contextApi';
+import { useNavigate } from 'react-router-dom';
 import Welcomecomp from '../components/welcomeComp';
-import QA from './QA';
 import './addQA.css';
+import Loading from '../components/loading';
 
 function Addqa(){
+    const { dataById, id } = useContext(contextApi);
+    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
     const [formValues,setFormValues] = useState([{question: '', answer: ''}]);
-    const [apiData,setApiData] = useState([]);
-    const [bool,setBool] = useState(true);
     
     //to add a new form
     const Addform = (e) => {
@@ -29,11 +32,15 @@ function Addqa(){
     //saving data to database
     const saveFormData = (e) => {
         e.preventDefault();
-        let id = localStorage.getItem('id');
+        let formdiv = document.getElementById('formdiv');
+        let saveBtn = document.getElementById('saveBtn');
+        let start = document.getElementById('start');
+        let ss = document.getElementById('ss');
         formValues.filter( async (ele)=>{
             if(ele.question === '' || ele.answer === ''){
                 alert('Enter question and answer');
             }else{
+                setIsLoading(true);
                 await fetch('https://sl-back-end.vercel.app/data/saveData', {
                     method: 'POST',
                     headers: {
@@ -41,26 +48,28 @@ function Addqa(){
                     },
                     body: JSON.stringify({id: id, qa: formValues})
                 })
-                document.getElementById('formdiv').style.display = 'none';
-                document.getElementById('saveBtn').style.display = 'none';
-                document.getElementById('start').style.display = 'block';
-                document.getElementById('ss').style.display = 'block';
+                formdiv.style.display = 'none';
+                saveBtn.style.display = 'none';
+                start.style.display = 'block';
+                ss.style.display = 'block';
             }
         })
+        setIsLoading(false);
     }
 
     //getting data by Id and redirecting to QAS page
     const startTask = async (e) => {
         e.preventDefault();
-        const id = localStorage.getItem('id');
+        setIsLoading(true);
         if(id){
-            await fetch(`https://sl-back-end.vercel.app/data/getDataById/${id}`).then(res=>res.json()).then(data=>setApiData(data.data.QA));
-            setBool(false);
+            dataById(id);
+            localStorage.setItem("id", id);
+            navigate('/qas');
         }
     }
     return(
         <>
-        {bool ? (
+        {isLoading ? <Loading /> : (
             <>
             <Welcomecomp />
             <form>
@@ -81,8 +90,6 @@ function Addqa(){
                 <button className='start' id='start' style={{display:'none'}} onClick={startTask}>Start</button>          
             </form>
             </>
-        ) : (
-            <QA ad={apiData}/>
         )}
         </>
     )

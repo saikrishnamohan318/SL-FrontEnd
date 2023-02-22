@@ -1,29 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import './mail.css';
+import contextApi from '../contextApi';
 import Welcomecomp from '../components/welcomeComp';
+import Loading from '../components/loading';
 
-function Mail({ cf, dt }){
+function Mail(){
     const navigate = useNavigate();
+    const { dataByMail, dataById, setId } = useContext(contextApi);
     const [values, setValues] = useState('');
-    const [ueData,setUeData] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     //getting available Id data
     useEffect(()=>{
         const id = localStorage.getItem('id');
         if(id){
-            fetch(`https://sl-back-end.vercel.app/data/getDataById/${id}`).then(res=>res.json()).then(data=>{
-                setUeData(data.data);
-                if(data.data.QA){
-                    navigate('/qas');
-                }
-            });
+            dataById(id);
+            navigate('/qas');
         }
     })
 
     //checking email is available in database
     var handleClick = async () => {
         try {
+            setIsLoading(true);
             const res = await fetch("https://sl-back-end.vercel.app/email/emailcheck", {
                 method: 'POST',
                 headers: {
@@ -31,14 +31,15 @@ function Mail({ cf, dt }){
                 },
                 body: JSON.stringify({email: values})
             })
+            setIsLoading(false);
             var result = await res.json();
-            result.id && localStorage.setItem('id', result.id);
+            result.id && setId(result.id);
             var para = document.getElementById('para');
             if(result.status === 'added email'){
                 alert(result.status);
                 setValues('');
                 para.style.display = 'none';
-                cf();
+                navigate('/addqa');
             }else if(result.status === 'email already exsists'){
                 para.style.display = 'block';
             }else {
@@ -53,17 +54,22 @@ function Mail({ cf, dt }){
 
     //getting user entered email data
     const gd = () => {
-        dt(values, ueData);
+        setIsLoading(true);
+        dataByMail(values);
         navigate("/qas");
     }
     return(
         <>
-        <Welcomecomp />
-        <div className="maildiv">
-            <p className="para" id="para" style={{display:'none'}}>Email already exsists<button className='gyd' onClick={gd}>Get your data</button></p>
-            <input type='text' className='email' placeholder='Enter email'value={values} onChange={e=>setValues(e.target.value)}/><br/>
-            <button className="submitBtn" onClick={handleClick}>Submit</button>
-        </div>
+        {isLoading ? <Loading /> : (
+            <>
+            <Welcomecomp />
+            <div className="maildiv">
+                <p className="para" id="para" style={{display:'none'}}>Email already exsists<button className='gyd' onClick={gd}>Get your data</button></p>
+                <input type='text' className='email' placeholder='Enter email'value={values} onChange={e=>setValues(e.target.value)}/><br/>
+                <button className="submitBtn" onClick={handleClick}>Submit</button>
+            </div>
+            </>
+        )}
         </>
     )
 }

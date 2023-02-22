@@ -1,38 +1,43 @@
 import React, { useState } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import contextApi from './contextApi';
 import Addqa from './pages/addQA';
 import Mail from './pages/mail';
 import QAS from './pages/QA';
 
 function App() {
-  //mail page to add Q & A page
-  const [bool, setBool] = useState(false);
-  const childfn = () => {
-    setBool(true);
-  }
-  
   const [data,setData] = useState('');
-  //getting data of exsisting mail and saving Id to localstorage
-  const dt = async (email, ud) => {
-    if(email){
-      await fetch(`https://sl-back-end.vercel.app/data/getDataByMail/${email}`).then(res=>res.json()).then(data=>{
-        setData(data.data);
-        localStorage.setItem('id', data.data._id);
-      });
-    }else if(ud) {
-      setData(ud);
-    }
+  const [id, setId] = useState('');
+
+  //getting data by mail
+  const dataByMail = async (email) => {
+    await fetch(`https://sl-back-end.vercel.app/data/getDataByMail/${email}`)
+    .then(response=>response.json())
+    .then(data=>{
+      setData(data.data.QA);
+      localStorage.setItem("id", data.data._id);
+    });
+  }
+
+  //getting data by id
+  const dataById = async (id) => {
+    await fetch(`https://sl-back-end.vercel.app/data/getDataById/${id}`)
+    .then(response=>response.json())
+    .then(data=>setData(data.data.QA));
   }
   return (
-    <div className="App">
-      <Router>
-          <Routes>
-            <Route path='/' element={bool ? <Addqa /> : <Mail cf={childfn} dt={dt}/>} />
-            <Route path='/qas' element={<QAS mailDt={data.QA}/>} />
-          </Routes>
-        </Router>
-    </div>
+    <contextApi.Provider value={{data, dataByMail, dataById, id, setId }}>
+      <div className="App">
+        <Router>
+            <Routes>
+              <Route path='/' element={<Mail />} />
+              <Route path='/addqa' element={<Addqa />} />
+              <Route path='/qas' element={<QAS />} />
+            </Routes>
+          </Router>
+      </div>
+    </contextApi.Provider>
   );
 }
 
