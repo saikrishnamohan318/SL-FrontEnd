@@ -9,18 +9,40 @@
     border-top-left-radius: 40px;
     border-bottom-right-radius: 40px;
 }
-input {
+.email {
     margin: 15px;
-    width: 70%;
+    width: 60%;
     border-radius: 5px;
     padding: 5px;
 }
+.sendotp {
+    width: 20%;
+    border-radius: 5px;
+    padding: 2.5px 5px;
+    cursor: pointer;
+}
+.sendotp:hover {
+    background-color: white;
+}
+.otp {
+    width: 30%;
+    margin: 0 auto 15px auto;
+    padding: 5px;
+    border-radius: 5px;
+}
+.verifyBtn {
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin: 0 auto 0 15px;
+    cursor: pointer;
+}
 ::placeholder {
     color: black;
-    font-size: 16px;
+    font-size: 14px;
 }
 .submitBtn {
     background-color: white;
+    margin: auto;
     color: black;
     padding: 5px 15px;
     font-size: 18px;

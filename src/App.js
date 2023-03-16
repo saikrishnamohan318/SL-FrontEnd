@@ -12,7 +12,7 @@ function App() {
 
   //getting data by mail
   const dataByMail = async (email) => {
-    await fetch(`https://sl-back-end.vercel.app/data/getDataByMail/${email}`)
+    await fetch(`https://sl-backend.onrender.com/data/getDataByMail/${email}`)
     .then(response=>response.json())
     .then(data=>{
       setData(data.data.QA);
@@ -22,7 +22,7 @@ function App() {
 
   //getting data by id
   const dataById = async (id) => {
-    await fetch(`https://sl-back-end.vercel.app/data/getDataById/${id}`)
+    await fetch(`https://sl-backend.onrender.com/data/getDataById/${id}`)
     .then(response=>response.json())
     .then(data=>setData(data.data.QA));
   }

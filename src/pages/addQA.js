@@ -8,7 +8,7 @@ import Loading from '../components/loading';
 function Addqa(){
     const { dataById, id } = useContext(contextApi);
     const navigate = useNavigate();
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading1, setIsLoading1] = useState(false);
     const [formValues,setFormValues] = useState([{question: '', answer: ''}]);
     
     //to add a new form
@@ -39,10 +39,11 @@ function Addqa(){
         formValues.filter( async (ele)=>{
             if(ele.question === '' || ele.answer === ''){
                 alert('Enter question and answer');
+                return;
             }else{
-                setIsLoading(true);
-                await fetch('https://sl-back-end.vercel.app/data/saveData', {
-                    method: 'POST',
+                setIsLoading1(true);
+                await fetch('https://sl-backend.onrender.com/data/saveData', {
+                    method: 'PUT',
                     headers: {
                         "Content-Type": "application/json"
                     },
@@ -54,13 +55,13 @@ function Addqa(){
                 ss.style.display = 'block';
             }
         })
-        setIsLoading(false);
+        setIsLoading1(false);
     }
 
     //getting data by Id and redirecting to QAS page
     const startTask = async (e) => {
         e.preventDefault();
-        setIsLoading(true);
+        setIsLoading1(true);
         if(id){
             dataById(id);
             localStorage.setItem("id", id);
@@ -69,7 +70,7 @@ function Addqa(){
     }
     return(
         <>
-        {isLoading ? <Loading /> : (
+        {isLoading1 ? <Loading /> : (
             <>
             <Welcomecomp />
             <form>

@@ -14,13 +14,13 @@ mic.interimResults = true;
 
 function QAS() {
     const { data, dataById } = useContext(contextApi);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading2, setIsLoading2] = useState(false);
     useEffect(()=>{
-        setIsLoading(true);
+        setIsLoading2(true);
         const id = localStorage.getItem('id');
         if(id){
             dataById(id);
-            setIsLoading(false);
+            setIsLoading2(false);
         }
     },[dataById])
 
@@ -28,7 +28,7 @@ function QAS() {
     const navigate = useNavigate();
     const logout = () => {
         localStorage.removeItem("id");
-        setIsLoading(true);
+        setIsLoading2(true);
         navigate("/");
     }
 
@@ -94,7 +94,7 @@ function QAS() {
     const [bool,setBool] = useState(false);
     return(
         <>
-        {isLoading ? <Loading /> : (
+        {isLoading2 ? <Loading /> : (
             <>
             {currentPosts && currentPosts.map((ele, index)=>{
                 return(
