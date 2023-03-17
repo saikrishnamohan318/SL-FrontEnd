@@ -130,3 +130,128 @@
     color: #0476D0;
     background-color: white;
 }
+
+@media (min-width: 1200px) {
+    .startrec {
+        margin-right: 15px;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .qadiv {
+        width: 70%;
+    }
+    .startrec {
+        margin-right: 15px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .qadiv {
+        width: 70%;
+    }
+    .lq {
+        padding: 30px 15px;
+        font-size: 18px;
+    }
+    .logout {
+        padding: 10px;
+        font-size: 16px;
+    }
+    .mic {
+        font-size: 18px;
+    }
+    .startrec {
+        position: relative;
+        right: 15px;
+    }
+    .startrec, .stoprec {
+        padding: 5px 10px;
+        font-size: 16px;
+    }
+    .yAns {
+        font-size: 18px;
+    }
+    .clear {
+        font-size: 14px;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+    .qadiv {
+        width: 90%;
+    }
+    .lq {
+        padding: 30px 15px;
+        font-size: 18px;
+    }
+    .logout {
+        padding: 10px;
+        font-size: 16px;
+    }
+    .mic {
+        font-size: 18px;
+    }
+    .startrec {
+        position: relative;
+        right: 15px;
+    }
+    .startrec, .stoprec {
+        padding: 5px 10px;
+        font-size: 16px;
+    }
+    .yAns {
+        font-size: 18px;
+    }
+    .showAns {
+        font-size: 14px;
+    }
+    .clear {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 575px) {
+    .qadiv {
+        width: 100%;
+    }
+    h3 {
+        font-size: 16px;
+    }
+    .lq {
+        padding: 30px 15px;
+        font-size: 16px;
+    }
+    .logout {
+        padding: 5px;
+        font-size: 14px;
+    }
+    .mic {
+        font-size: 16px;
+    }
+    .rec {
+        position: relative;
+        right: 20px;
+    }
+    .startrec {
+        margin-right: 15px;
+    }
+    .startrec, .stoprec {
+        padding: 5px 10px;
+        font-size: 14px;
+    }
+    .yAns {
+        font-size: 16px;
+    }
+    .showAns {
+        font-size: 14px;
+    }
+    .la {
+        padding: 10px 7px;
+        font-size: 12px;
+    }
+    .clear {
+        font-size: 12px;
+        padding: 5px;
+    }
+}

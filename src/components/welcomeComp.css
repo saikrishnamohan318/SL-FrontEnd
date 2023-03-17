@@ -7,3 +7,21 @@ h1 {
     font-weight: 200;
     color: #FFC93C;
 }
+
+@media (min-width: 768px) and (max-width: 991px) {
+    h1 {
+        font-size: 40px;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+    h1 {
+        font-size: 35px;
+    }
+}
+
+@media (max-width: 575px) {
+    h1 {
+        font-size: 30px;
+    }
+}

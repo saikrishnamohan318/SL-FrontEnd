@@ -7,7 +7,7 @@ import Loading from '../components/loading';
 
 function Mail(){
     const navigate = useNavigate();
-    const { dataByMail, dataById, setId } = useContext(contextApi);
+    const { dataById, setId, setData } = useContext(contextApi);
     const [values, setValues] = useState('');
     const [otp,setOtp] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -73,11 +73,12 @@ function Mail(){
         .then(data=>{
             alert(data.message);
             setShowSendOtp(false);
+            setShowSbt(true);
             setShowOtpField(true);
         })
     }
 
-    //verify email
+    //verify otp and save email
     const handleOtpChange = async (e) => {
         e.preventDefault();
         if(otp === ''){
@@ -102,7 +103,7 @@ function Mail(){
         
     }
 
-    //getting user entered email data
+    //comparing otp and getting user entered email data
     const gd = async (e) => {
         e.preventDefault();
         setIsLoading(true);
@@ -118,10 +119,19 @@ function Mail(){
             },
             body: JSON.stringify({otp: otp})
         }).then(res=>res.json())
-        .then(data=>{
+        .then(async data=>{
             if(data.status === 'otp verified'){
-                dataByMail(values);
-                navigate('/qas');
+                await fetch(`https://sl-backend.onrender.com/data/getDataByMail/${values}`)
+                .then(response=>response.json())
+                .then(data=>{
+                    if(data.data.QA.length === 0){
+                        setId(data.data._id);
+                        navigate('/addqa');
+                    }else{
+                        setData(data.data.QA);
+                        localStorage.setItem("id", data.data._id);
+                    }
+                });
             }else if(data.status === 'incorrect otp'){
                 alert('Invalid OTP');
             }

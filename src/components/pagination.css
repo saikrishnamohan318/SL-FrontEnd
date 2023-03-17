@@ -12,3 +12,23 @@ li {
     margin: 10px;
     cursor: pointer;
 }
+
+@media (min-width: 576px) and (max-width: 767px) {
+    ul {
+        position: relative;
+        right: 20px;
+    }
+    li {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 575px) {
+    ul {
+        position: relative;
+        right: 20px;
+    }
+    li {
+        font-size: 14px;
+    }
+}

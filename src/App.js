@@ -10,16 +10,6 @@ function App() {
   const [data,setData] = useState('');
   const [id, setId] = useState('');
 
-  //getting data by mail
-  const dataByMail = async (email) => {
-    await fetch(`https://sl-backend.onrender.com/data/getDataByMail/${email}`)
-    .then(response=>response.json())
-    .then(data=>{
-      setData(data.data.QA);
-      localStorage.setItem("id", data.data._id);
-    });
-  }
-
   //getting data by id
   const dataById = async (id) => {
     await fetch(`https://sl-backend.onrender.com/data/getDataById/${id}`)
@@ -27,7 +17,7 @@ function App() {
     .then(data=>setData(data.data.QA));
   }
   return (
-    <contextApi.Provider value={{data, dataByMail, dataById, id, setId }}>
+    <contextApi.Provider value={{data, setData, dataById, id, setId }}>
       <div className="App">
         <Router>
             <Routes>

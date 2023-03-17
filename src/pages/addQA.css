@@ -73,3 +73,35 @@
     background-color: white;
     color: green;
 }
+
+@media (min-width: 768px) and (max-width: 1199px) {
+    .formfields {
+        width: 70%;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+    .formfields {
+        width: 85%;
+        position: relative;
+        right: 20px;
+    }
+    .ss {
+        font-size: 30px;
+    }
+}
+
+@media (max-width: 575px) {
+    .formfields {
+        width: 90%;
+        position: relative;
+        right: 20px;
+    }
+    .ss {
+        font-size: 25px;
+    }
+    .start {
+        font-size: 16px;
+        padding: 10px;
+    }
+}

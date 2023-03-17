@@ -69,3 +69,70 @@
     color: blue;
     text-decoration: underline;
 }
+
+@media (min-width: 1200px) {
+    .sendotp {
+        padding: 5px 0;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .email {
+        width: 70%;
+    }
+    .sendotp {
+        width: 30%;
+    }
+    .submitBtn {
+        font-size: 16px;
+        padding: 5px 10px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .maildiv {
+        width: 38%;
+    }
+    .email {
+        width: 70%;
+    }
+    .sendotp {
+        width: 30%;
+    }
+    .submitBtn {
+        font-size: 16px;
+        padding: 5px 10px;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+    .maildiv {
+        width: 55%;
+    }
+    .email {
+        width: 70%;
+    }
+    .sendotp {
+        width: 30%;
+    }
+    .submitBtn {
+        font-size: 16px;
+        padding: 5px 10px;
+    }
+}
+
+@media (max-width: 575px) {
+    .maildiv {
+        width: 80%;
+    }
+    .email {
+        width: 75%;
+    }
+    .sendotp {
+        width: 35%;
+    }
+    .submitBtn {
+        font-size: 16px;
+        padding: 5px 10px;
+    }
+}
