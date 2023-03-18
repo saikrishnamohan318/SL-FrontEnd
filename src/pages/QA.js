@@ -54,7 +54,8 @@ function QAS() {
 
     //speech to text
     const [isListening,setIsListening] = useState(false);
-    const [transcript,setTranscript] = useState();    
+    const [transcript,setTranscript] = useState();
+    const [showAans, setShowAans] = useState(false);    
 
     const startrec = document.getElementById('startrec');
     const stoprec = document.getElementById('stoprec');
@@ -64,6 +65,7 @@ function QAS() {
         mic.start();
         startrec.disabled = true;
         stoprec.disabled = false;
+        setShowAans(false);
         showAns.style.display = 'none';
     }
     mic.onstart = () => {
@@ -87,6 +89,7 @@ function QAS() {
         mic.stop();
         startrec.disabled = false;
         stoprec.disabled = true;
+        setShowAans(true);
         showAns.style.display = 'block';
     }
 
@@ -113,7 +116,7 @@ function QAS() {
                         </div>
                         <div className="urAns">
                             <p className='yAns'>Your Answer :-</p>
-                            <p className="transcript">{transcript}</p>
+                            <p className="transcript">{showAans ? transcript : null}</p>
                             <button onClick={()=>setTranscript('')} className='clear'>Clear</button>
                         </div>
                         <div id="showAns" style={{display: 'none'}}>
