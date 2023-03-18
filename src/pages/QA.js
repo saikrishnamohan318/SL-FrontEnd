@@ -1,10 +1,12 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import contextApi from '../contextApi';
 import Pagination from "../components/pagination";
 import Welcomecomp from "../components/welcomeComp";
 import './QA.css';
 import Loading from "../components/loading";
+
+import useSpeechToText from 'react-hook-speech-to-text';
 
 var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
 var mic = new SpeechRecognition();
@@ -53,44 +55,38 @@ function QAS() {
     }   
 
     //speech to text
-    const [isListening,setIsListening] = useState(false);
-    const [transcript,setTranscript] = useState();
-    const [showAans, setShowAans] = useState(false);    
-
-    const startrec = document.getElementById('startrec');
-    const stoprec = document.getElementById('stoprec');
+    const [transcript,setTranscript] = useState('');
+    const {
+        isRecording,
+        results,
+        startSpeechToText,
+        stopSpeechToText,
+      } = useSpeechToText({
+        continuous: true,
+        useLegacyResults: false
+    });
     const showAns = document.getElementById('showAns');
-    var startRecognition = () => {
-        setIsListening(true);
-        mic.start();
-        startrec.disabled = true;
-        stoprec.disabled = false;
-        setShowAans(false);
+
+    const handleResultsChange = useCallback(
+        (results) => {
+          setTranscript(results[results.length - 1]?.transcript || '');
+        },
+        [setTranscript]
+    );
+
+    useEffect(() => {
+        handleResultsChange(results);
+    }, [results, handleResultsChange]);
+    
+    const startSpeechTT = () => {
+        startSpeechToText();
         showAns.style.display = 'none';
     }
-    mic.onstart = () => {
-        console.log('mic is on');
-    }
-    mic.onspeechend = () => {
-        console.log('mic is off');
-    }
-    mic.onresult = (e) => {
-        const tscript = Array.from(e.results)
-        .map(result => result[0])
-        .map(result => result.transcript)
-        .join('');
-        setTranscript(tscript);
-        mic.onerror = (e) => {
-            console.log(e.error);
-        }
-    }
-    var stopRecognition = () => {
-        setIsListening(false);
-        mic.stop();
-        startrec.disabled = false;
-        stoprec.disabled = true;
-        setShowAans(true);
+
+    const stopSpeechTT = () => {
+        stopSpeechToText();
         showAns.style.display = 'block';
+        console.log(transcript);
     }
 
     //display answers
@@ -109,14 +105,14 @@ function QAS() {
                             <button onClick={logout} className='logout'>Logout</button>
                         </div>
                         <button className="lq" onClick={(e)=>textToSpeech(e)} value={ele.question}>Listen{<br/>}Question</button>
-                        {isListening ? <p className="mic">recording...</p> : <p className="mic">Mic is off</p>}
+                        {isRecording ? <p className="mic">recording...</p> : <p className="mic">Mic is off</p>}
                         <div className='rec'>
-                            <button className="startrec" id="startrec" onClick={startRecognition}>Start</button>
-                            <button className="stoprec" id="stoprec" onClick={stopRecognition} disabled={!isListening}>Stop</button>
+                            <button className="startrec" id="startrec" onClick={startSpeechTT}>Start</button>
+                            <button className="stoprec" id="stoprec" onClick={stopSpeechTT} disabled={!isRecording}>Stop</button>
                         </div>
                         <div className="urAns">
                             <p className='yAns'>Your Answer :-</p>
-                            <p className="transcript">{showAans ? transcript : null}</p>
+                            <p className="transcript">{transcript}</p>
                             <button onClick={()=>setTranscript('')} className='clear'>Clear</button>
                         </div>
                         <div id="showAns" style={{display: 'none'}}>
