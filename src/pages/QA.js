@@ -45,7 +45,7 @@ function QAS() {
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
         setTranscript('');
-        showAns.style.display = 'none';
+        setShowAns(false);
     }
 
     //text-to-speech code
@@ -56,6 +56,7 @@ function QAS() {
 
     //speech to text
     const [transcript,setTranscript] = useState('');
+    const [showAns, setShowAns] = useState(false);
     const {
         isRecording,
         results,
@@ -65,7 +66,6 @@ function QAS() {
         continuous: true,
         useLegacyResults: false
     });
-    const showAns = document.getElementById('showAns');
 
     const handleResultsChange = useCallback(
         (results) => {
@@ -80,13 +80,12 @@ function QAS() {
     
     const startSpeechTT = () => {
         startSpeechToText();
-        showAns.style.display = 'none';
+        setShowAns(false);
     }
 
     const stopSpeechTT = () => {
         stopSpeechToText();
-        showAns.style.display = 'block';
-        console.log(transcript);
+        setShowAns(true);
     }
 
     //display answers
@@ -115,7 +114,7 @@ function QAS() {
                             <p className="transcript">{transcript}</p>
                             <button onClick={()=>setTranscript('')} className='clear'>Clear</button>
                         </div>
-                        <div id="showAns" style={{display: 'none'}}>
+                        <div id="showAns" style={{display: showAns ? 'block' : 'none'}}>
                             <button className="showAns" onClick={()=>setBool(!bool)}>{bool ? <span>Hide Answer</span> : <span>Show Answer</span>}</button>
                             {bool ? (
                                 <div className="urAns" id="urAns">
